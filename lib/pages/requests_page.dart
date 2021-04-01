@@ -5,6 +5,7 @@ import 'package:solicitacoes_app/models/requests_model.dart';
 import 'package:solicitacoes_app/pages/request_page.dart';
 import 'package:solicitacoes_app/utils/nav.dart';
 import 'package:solicitacoes_app/widgets/text_error.dart';
+import 'package:solicitacoes_app/widgets/text.dart';
 
 class RequestsPage extends StatefulWidget {
   @override
@@ -26,9 +27,30 @@ class _RequestsPageState extends State<RequestsPage> {
         List<Request> requests = _model.requestList;
 
         if (_model.error != null) {
-          return TextError(_model.error.toString());
+          print(_model.error.toString());
+          return RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextError(_model.error.toString()),
+                  SizedBox(height: 16),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    ),
+                    child: Text("Clique aqui para recarregar"),
+                    onPressed: _onRefresh,
+                  ),
+                ],
+              ),
+            ),
+          );
         }
-        
+
         if (requests == null) {
           return Container(
             child: CircularProgressIndicator(),
@@ -50,37 +72,38 @@ class _RequestsPageState extends State<RequestsPage> {
                     },
                     child: Card(
                       color: Colors.grey[100],
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              request.requestTypeDescription,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Text(
-                              request.nameRequester,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            ButtonBarTheme(
-                              data: ButtonBarTheme.of(context),
-                              child: ButtonBar(
-                                children: <Widget>[
-                                  TextButton(
-                                    child: const Text('DETALHES'),
-                                    onPressed: () =>
-                                        _onClickRequest(context, request),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      child: ExpansionTile(
+                        //leading: Text(request.requestDate),
+                        title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(request.requestTypeDescription),
+                              request.response != null
+                                  ? Icon(request.response
+                                      ? Icons.check_circle_rounded
+                                      : Icons.block_outlined)
+                                  : Container(),
+                            ]),
+                        subtitle: Text(request.nameRequester),
+                        childrenPadding: EdgeInsets.all(16),
+                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          text(
+                            'Detalhes da solicitação',
+                            fontSize: 16,
+                            bold: true,
+                          ),
+                          Text(request.requestDetail.replaceAll("\\n", '\n')),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          text(
+                            'Observação do Operador',
+                            fontSize: 16,
+                            bold: true,
+                          ),
+                          text(request.requestMessage),
+                        ],
                       ),
                     ),
                   ),
@@ -94,6 +117,7 @@ class _RequestsPageState extends State<RequestsPage> {
   }
 
   Future<void> _onRefresh() {
+    print('refresh');
     return _model.fetch();
   }
 
