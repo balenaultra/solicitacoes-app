@@ -18,9 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _loginModal = LoginModel();
 
-  final _tCompanyCPFCNPJ = TextEditingController();
-  final _tCode = TextEditingController();
-  final _tPassword = TextEditingController();
+  final _tCompanyCPFCNPJ = TextEditingController(text: "04073237000153");
+  final _tCode = TextEditingController(text: "2");
+  final _tPassword = TextEditingController(text: "estac2ul");
 
   final _focusCode = FocusNode();
   final _focusPassword = FocusNode();
@@ -104,8 +104,6 @@ class _LoginPageState extends State<LoginPage> {
     String companyCPFCNPJ = _tCompanyCPFCNPJ.text;
     String code = _tCode.text;
     String password = _tPassword.text;
-
-    print("cpf cnpj $companyCPFCNPJ code $code psswrd $password");
 
     ApiResponse response = await _loginModal.login(companyCPFCNPJ, code, password);
 
