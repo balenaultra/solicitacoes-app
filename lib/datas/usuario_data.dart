@@ -8,10 +8,11 @@ class Usuario {
   String name;
   String email;
   String token;
+  DateTime tokenDate;
   List<String> roles;
 
   Usuario(this.id, this.companyCPFCNPJ, this.code, this.name, this.email,
-      this.token, this.roles);
+      this.token, this.tokenDate, this.roles);
 
   Usuario.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -20,6 +21,7 @@ class Usuario {
     name = json['name'];
     email = json['email'];
     token = json['token'];
+    tokenDate = json['tokenDate'] != null ? DateTime.parse(json['tokenDate']) : null;
     roles = json['roles'] != null ? json['roles'].cast<String>() : [];
   }
 
@@ -31,6 +33,7 @@ class Usuario {
     data['name'] = this.name;
     data['email'] = this.email;
     data['token'] = this.token;
+    data['tokenDate'] = this.tokenDate.toIso8601String();
     data['roles'] = this.roles;
     return data;
   }
@@ -43,6 +46,8 @@ class Usuario {
     Map map = toJson();
 
     String json = convert.json.encode(map);
+
+    //print(json);
 
     Prefs.setString("user.prefs", json);
   }
@@ -61,6 +66,6 @@ class Usuario {
 
   @override
   String toString() {
-    return 'Usuario{id: $id, companyCPFCNPJ: $companyCPFCNPJ, code: $code, name: $name, email: $email, token: $token, roles: $roles}';
+    return 'Usuario{id: $id, companyCPFCNPJ: $companyCPFCNPJ, code: $code, name: $name, email: $email, token: $token, tokenDate: $tokenDate, roles: $roles}';
   }
 }
