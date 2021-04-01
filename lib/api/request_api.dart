@@ -11,11 +11,8 @@ class RequestApi {
 
       var response = await http.get(url);
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      //print('Response bodymessage: ${response.body}');
-
-      print("API CODE >> ${response.statusCode}");
+      //print('Response status: ${response.statusCode}');
+      //print('Response body: ${response.body}');
 
       List mapResponse = convert.json.decode(response.body);
 
@@ -28,7 +25,7 @@ class RequestApi {
       }
       return ApiResponse.error("Não foi possível obter as solicitações");
     } catch (error) {
-      print("Erro ao obter as solicitações $error");
+      //print("Erro ao obter as solicitações $error");
 
       return ApiResponse.error("Não foi possível obter as solicitações.");
     }
