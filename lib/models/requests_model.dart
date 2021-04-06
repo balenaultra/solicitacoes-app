@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:solicitacoes_app/api/login_api.dart';
+import 'package:solicitacoes_app/datas/usuario_data.dart';
 import 'package:solicitacoes_app/utils/api_response.dart';
 import 'package:solicitacoes_app/datas/request_data.dart';
 import 'package:solicitacoes_app/api/request_api.dart';
@@ -20,6 +22,18 @@ abstract class RequestsModelBase with Store {
   @action
   fetch() async {
     try {
+      Usuario user = await Usuario.get();
+
+      DateTime now = DateTime.now();
+      now = DateTime(now.year, now.month, now.day);
+      print(now);
+
+      if (now != user.tokenDate) {
+        ApiResponse responseLogin = await LoginApi.login(user.companyCPFCNPJ, user.code.toString(), user.password);
+        if (!responseLogin.ok)
+          throw Exception(responseLogin.msg);
+      }
+
       ApiResponse response = await RequestApi.fetch();
 
       if (response.ok)
