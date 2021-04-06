@@ -5,8 +5,9 @@ class Usuario {
   int id;
   String companyCPFCNPJ;
   int code;
-  String name;
   String email;
+  String name;
+  String password;
   String token;
   DateTime tokenDate;
   List<String> roles;
@@ -20,6 +21,7 @@ class Usuario {
     code = json["code"];
     name = json['name'];
     email = json['email'];
+    password = json['password'];
     token = json['token'];
     tokenDate = json['tokenDate'] != null ? DateTime.parse(json['tokenDate']) : null;
     roles = json['roles'] != null ? json['roles'].cast<String>() : [];
@@ -32,6 +34,7 @@ class Usuario {
     data['code'] = this.code;
     data['name'] = this.name;
     data['email'] = this.email;
+    data['password'] = this.password;
     data['token'] = this.token;
     data['tokenDate'] = this.tokenDate.toIso8601String();
     data['roles'] = this.roles;
