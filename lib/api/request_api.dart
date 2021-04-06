@@ -1,4 +1,4 @@
-import 'dart:convert' as convert;
+import 'dart:convert';
 
 import 'package:solicitacoes_app/utils/api_response.dart';
 import 'package:solicitacoes_app/datas/request_data.dart';
@@ -14,7 +14,7 @@ class RequestApi {
       //print('Response status: ${response.statusCode}');
       //print('Response body: ${response.body}');
 
-      List mapResponse = convert.json.decode(response.body);
+      List mapResponse = json.decode(response.body);
 
       if (response.statusCode == 200) {
 
@@ -28,6 +28,36 @@ class RequestApi {
       //print("Erro ao obter as solicitações $error");
 
       return ApiResponse.error("Não foi possível obter as solicitações.");
+    }
+  }
+
+  static Future<ApiResponse<bool>> update(Request request) async {
+    try {
+      var url = 'http://localhost:3000/requests/${request.id}';
+
+      final params = {
+        "response": request.response,
+        "response_message": request.responseMessage,
+        "response_date": request.responseDate};
+
+      String s = json.encode(params);
+
+      var response = await http.put(url, body: s);
+
+      //print('Response status: ${response.statusCode}');
+      //print('Response body: ${response.body}');
+
+      var mapResponse = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+
+        return ApiResponse.ok(true);
+      }
+      return ApiResponse.error(mapResponse["message"]);
+    } catch (error) {
+      //print("Erro ao obter as solicitações $error");
+
+      return ApiResponse.error("Não foi possível atualizar a solicitação.");
     }
   }
 }
