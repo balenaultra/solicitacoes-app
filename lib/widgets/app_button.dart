@@ -11,19 +11,21 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 46,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: onPressed,
-        color: Colors.blue,
+        style: ElevatedButton.styleFrom(
+          primary: Colors.black,
+        ),
         child: showProgress
             ? Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),
                 ),
               )
             : Text(
                 text,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).accentColor,
                   fontSize: 22,
                 ),
               ),
