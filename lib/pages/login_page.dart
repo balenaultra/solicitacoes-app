@@ -1,6 +1,7 @@
 import 'package:solicitacoes_app/models/login_model.dart';
 import 'package:solicitacoes_app/utils/api_response.dart';
 import 'package:solicitacoes_app/pages/home_page.dart';
+
 //import 'package:solicitacoes_app/temporary/login_bloc.dart';
 import 'package:solicitacoes_app/utils/alert.dart';
 import 'package:solicitacoes_app/utils/nav.dart';
@@ -39,9 +40,16 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: _formKey,
       child: Container(
+        color: Theme.of(context).colorScheme.primary,
         padding: EdgeInsets.all(16),
         child: ListView(
           children: [
+            Container(
+              child: Image.asset(
+                'assets/images/UltraSistemas.png',
+                height: 90,
+              ),
+            ),
             AppText(
               "CPF / CNPJ",
               "Digite o CPF / CNPJ da empresa",
@@ -105,7 +113,8 @@ class _LoginPageState extends State<LoginPage> {
     String code = _tCode.text;
     String password = _tPassword.text;
 
-    ApiResponse response = await _loginModal.login(companyCPFCNPJ, code, password);
+    ApiResponse response =
+        await _loginModal.login(companyCPFCNPJ, code, password);
 
     if (response.ok) {
       push(context, HomePage(), replace: true);
