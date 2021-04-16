@@ -4,31 +4,50 @@ class AppButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final bool showProgress;
+  final Color primaryColor;
+  final Color textColor;
+  final double textFontSize;
+  final double height;
 
-  AppButton(this.text, {this.onPressed, this.showProgress = false});
+  AppButton(
+    this.text, {
+    this.onPressed,
+    this.showProgress = false,
+    this.primaryColor = Colors.black,
+    this.textColor,
+    this.textFontSize = 22,
+    this.height = 46,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 46,
+      margin: EdgeInsets.all(12),
+      height: height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: Colors.black,
+          primary: primaryColor,
+          shape: new RoundedRectangleBorder(
+            borderRadius:
+            new BorderRadius.circular(10.0),
+          ),
         ),
         child: showProgress
             ? Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).selectedRowColor),
                 ),
               )
             : Text(
                 text,
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  fontSize: 22,
+                  color: textColor ?? Theme.of(context).selectedRowColor,
+                  fontSize: textFontSize,
                 ),
               ),
+
       ),
     );
   }

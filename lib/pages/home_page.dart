@@ -7,16 +7,34 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>  with SingleTickerProviderStateMixin<HomePage> {
-
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Solicitações"),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Solicitações'),
+              Tab(text: 'Consulta'),
+
+
+            ],
+          ),
+          title: Text("Solicitações"),
+        ),
+        body: TabBarView(
+          children: [
+            RequestsPage(),
+            RequestsPage(pendentes: false),
+
+
+          ],
+        ),
+        drawer: DrawerList(),
       ),
-      body: RequestsPage(),
-      drawer: DrawerList(),
     );
   }
 }

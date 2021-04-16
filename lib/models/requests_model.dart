@@ -26,7 +26,6 @@ abstract class RequestsModelBase with Store {
 
       DateTime now = DateTime.now();
       now = DateTime(now.year, now.month, now.day);
-      print(now);
 
       if (now != user.tokenDate) {
         ApiResponse responseLogin = await LoginApi.login(user.companyCPFCNPJ, user.code.toString(), user.password);

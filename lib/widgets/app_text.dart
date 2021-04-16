@@ -35,30 +35,30 @@ class AppText extends StatelessWidget {
       onFieldSubmitted: (String text) {
         if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
       },
-      cursorColor: Theme.of(context).accentColor,
+      cursorColor: Theme.of(context).selectedRowColor,
       style: TextStyle(
         fontSize: 20,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).selectedRowColor,
       ),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).accentColor),
+          borderSide: BorderSide(color: Theme.of(context).selectedRowColor),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).accentColor),
+          borderSide: BorderSide(color: Theme.of(context).selectedRowColor),
         ),
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).accentColor),
+          borderSide: BorderSide(color: Theme.of(context).selectedRowColor),
         ),
         labelText: label,
         labelStyle: TextStyle(
           fontSize: 25,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).selectedRowColor,
         ),
         hintText: hint,
         hintStyle: TextStyle(
           fontSize: 16,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).selectedRowColor,
         ),
       ),
     );

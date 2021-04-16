@@ -29,9 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
       body: _body(),
     );
   }
@@ -44,11 +41,17 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Container(
               child: Image.asset(
                 'assets/images/UltraSistemas.png',
                 height: 90,
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             AppText(
               "CPF / CNPJ",
