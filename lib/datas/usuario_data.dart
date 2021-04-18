@@ -2,15 +2,15 @@ import 'package:solicitacoes_app/utils/prefs.dart';
 import 'dart:convert' as convert;
 
 class Usuario {
-  int id;
-  String companyCPFCNPJ;
-  int code;
-  String email;
-  String name;
-  String password;
-  String token;
-  DateTime tokenDate;
-  List<String> roles;
+  int? id;
+  String? companyCPFCNPJ;
+  int? code;
+  String? email;
+  String? name;
+  String? password;
+  String? token;
+  DateTime? tokenDate;
+  List<String>? roles;
 
   Usuario(this.id, this.companyCPFCNPJ, this.code, this.name, this.email,
       this.token, this.tokenDate, this.roles);
@@ -36,7 +36,7 @@ class Usuario {
     data['email'] = this.email;
     data['password'] = this.password;
     data['token'] = this.token;
-    data['tokenDate'] = this.tokenDate.toIso8601String();
+    data['tokenDate'] = this.tokenDate!.toIso8601String();
     data['roles'] = this.roles;
     return data;
   }
@@ -55,14 +55,14 @@ class Usuario {
     Prefs.setString("user.prefs", json);
   }
 
-  static Future<Usuario> get() async {
+  static Future<Usuario?> get() async {
     String json = await Prefs.getString("user.prefs");
 
     if (json.isEmpty) return null;
 
     Map map = convert.json.decode(json);
 
-    Usuario user = Usuario.fromJson(map);
+    Usuario user = Usuario.fromJson(map as Map<String, dynamic>);
 
     return user;
   }

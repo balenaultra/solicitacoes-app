@@ -12,13 +12,13 @@ mixin _$RequestsModel on RequestsModelBase, Store {
   final _$requestListAtom = Atom(name: 'RequestsModelBase.requestList');
 
   @override
-  List<Request> get requestList {
+  List<Request>? get requestList {
     _$requestListAtom.reportRead();
     return super.requestList;
   }
 
   @override
-  set requestList(List<Request> value) {
+  set requestList(List<Request>? value) {
     _$requestListAtom.reportWrite(value, super.requestList, () {
       super.requestList = value;
     });
@@ -27,13 +27,13 @@ mixin _$RequestsModel on RequestsModelBase, Store {
   final _$errorAtom = Atom(name: 'RequestsModelBase.error');
 
   @override
-  Exception get error {
+  Exception? get error {
     _$errorAtom.reportRead();
     return super.error;
   }
 
   @override
-  set error(Exception value) {
+  set error(Exception? value) {
     _$errorAtom.reportWrite(value, super.error, () {
       super.error = value;
     });

@@ -8,7 +8,7 @@ class DrawerList extends StatelessWidget {
   UserAccountsDrawerHeader _header(Usuario user) {
     return UserAccountsDrawerHeader(
       accountName: Text(user.name ?? 'Nome'),
-      accountEmail: Text(user.email) ?? 'E-Mail',
+      accountEmail: Text(user.email!), // ?? 'E-Mail' as Widget?,
       currentAccountPicture: CircleAvatar(
         backgroundImage: NetworkImage("https://icons.iconarchive.com/icons/paomedia/small-n-flat/512/user-male-icon.png"),
       ),
@@ -16,16 +16,16 @@ class DrawerList extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    Future<Usuario> future = Usuario.get();
+    Future<Usuario?> future = Usuario.get();
 
     return SafeArea(
       child: Drawer(
         child: ListView(
           children: [
-            FutureBuilder<Usuario>(
+            FutureBuilder<Usuario?>(
               future: future,
               builder: (context, snapshot) {
-                Usuario user = snapshot.data;
+                Usuario? user = snapshot.data;
                 return user != null ? _header(user) : Container();
               },
             ),

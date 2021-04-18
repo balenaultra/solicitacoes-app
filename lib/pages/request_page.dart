@@ -20,7 +20,7 @@ class _RequestPageState extends State<RequestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(request.requestTypeDescription),
+        title: Text(request.requestTypeDescription!),
       ),
       body: Container(
         margin: EdgeInsets.all(16),
@@ -31,7 +31,7 @@ class _RequestPageState extends State<RequestPage> {
             text(request.nameRequester, fontSize: 20, bold: true),
             Divider(),
             text("Detalhes da solicitação", fontSize: 22),
-            text(request.requestDetail.replaceAll("/s", '\n'), fontSize: 22),
+            text(request.requestDetail!.replaceAll("/s", '\n'), fontSize: 22),
             Divider(),
             text("Mensagem do solicitante", fontSize: 18),
             text(request.requestMessage, fontSize: 22),

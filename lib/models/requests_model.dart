@@ -14,23 +14,27 @@ class RequestsModel = RequestsModelBase with _$RequestsModel;
 abstract class RequestsModelBase with Store {
 
   @observable
-  List<Request> requestList = [];
+  List<Request>? requestList = [];
 
   @observable
-  Exception error;
+  Exception? error;
 
   @action
   fetch() async {
     try {
-      Usuario user = await Usuario.get();
+      var user = await Usuario.get();
 
-      DateTime now = DateTime.now();
-      now = DateTime(now.year, now.month, now.day);
+      if (user != null) {
+        DateTime now = DateTime.now();
+        now = DateTime(now.year, now.month, now.day);
 
-      if (now != user.tokenDate) {
-        ApiResponse responseLogin = await LoginApi.login(user.companyCPFCNPJ, user.code.toString(), user.password);
-        if (!responseLogin.ok)
-          throw Exception(responseLogin.msg);
+        if (now != user.tokenDate) {
+          ApiResponse responseLogin = await LoginApi.login(
+              user.companyCPFCNPJ, user.code.toString(), user.password);
+
+          if (!responseLogin.ok)
+            throw Exception(responseLogin.msg);
+        }
       }
 
       ApiResponse response = await RequestApi.fetch();
@@ -43,7 +47,7 @@ abstract class RequestsModelBase with Store {
       return response;
 
     } catch (e) {
-      error = e;
+      error = Exception(e);
     }
   }
 

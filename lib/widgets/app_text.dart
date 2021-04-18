@@ -4,12 +4,12 @@ class AppText extends StatelessWidget {
   final String label;
   final String hint;
   final bool password;
-  final TextEditingController controller;
-  final FormFieldValidator<String> validator;
-  final TextInputType keyboardType;
-  final TextInputAction textInputAction;
-  final FocusNode focusNode;
-  final FocusNode nextFocus;
+  final TextEditingController? controller;
+  final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocus;
 
   AppText(
     this.label,

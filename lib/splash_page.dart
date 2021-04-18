@@ -15,10 +15,10 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     Future futureBD = DatabaseHelper.getInstance().db;
 
-    Future<Usuario> futureUser = Usuario.get();
+    var futureUser = Usuario.get();
 
     Future.wait([futureBD, futureUser]).then((value) {
-      Usuario user = value[1];
+      Usuario? user = value[1];
 
       if (user != null) {
         push(context, HomePage(), replace: true);

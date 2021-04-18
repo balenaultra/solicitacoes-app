@@ -10,18 +10,18 @@ class DatabaseHelper {
 
   factory DatabaseHelper() => _instance;
 
-  static Database _db;
+  static Database? _db;
 
-  Future<Database> get db async {
+  Future<Database?> get db async {
     if (_db != null) {
       return _db;
     }
-    _db = await _initDb();
+    _db = await (_initDb() as Future<Database?>);
 
     return _db;
   }
 
-  Future _initDb() async {
+  Future<Database?> _initDb() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'solicitacoes.db');
     print("db $path");
@@ -52,7 +52,7 @@ class DatabaseHelper {
   }
 
   Future close() async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     return dbClient.close();
   }
 }

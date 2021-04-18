@@ -1,16 +1,16 @@
 class Request {
-  int id;
-  int idUserRequester;
-  String nameRequester;
-  int idUserRequested;
-  int idRequestType;
-  String requestTypeDescription;
-  String requestMessage;
-  String requestDate;
-  String requestDetail;
-  bool response;
-  String responseMessage;
-  String responseDate;
+  int? id;
+  int? idUserRequester;
+  String? nameRequester;
+  int? idUserRequested;
+  int? idRequestType;
+  String? requestTypeDescription;
+  String? requestMessage;
+  String? requestDate;
+  String? requestDetail;
+  bool? response;
+  String? responseMessage;
+  String? responseDate;
 
   Request(
       this.id,

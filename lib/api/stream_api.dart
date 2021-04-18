@@ -1,18 +1,20 @@
+import 'dart:async';
+
 import 'package:solicitacoes_app/datas/usuario_data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class StreamApi {
-  static http.Client _client;
+  static http.Client? _client;
 
   static bool subscribed = false;
 
   static subscribe(String eventName, Function onEvent) async {
     print("Subscribing..");
     try {
-      Usuario user = await Usuario.get();
+      var user = await Usuario.get();
 
-      String url = "http://localhost:3000/stream/${user.companyCPFCNPJ}";
+      String url = "http://localhost:3000/stream/${user?.companyCPFCNPJ}";
 
       _client = http.Client();
 
@@ -20,7 +22,7 @@ class StreamApi {
       request.headers["Cache-Control"] = "no-cache";
       request.headers["Accept"] = "text/event-stream";
 
-      Future<http.StreamedResponse> response = _client.send(request);
+      Future<http.StreamedResponse> response = _client!.send(request);
 
       response.asStream().listen((streamedResponse) {
         //print("Received streamedResponse.statusCode:${streamedResponse.statusCode}");
@@ -49,6 +51,6 @@ class StreamApi {
     print("UN-Subscribing..");
     print(_client);
     if (_client != null)
-      _client.close();
+      _client!.close();
   }
 }

@@ -27,9 +27,6 @@ class _RequestsPageState extends State<RequestsPage> {
   bool get pendentes => widget.pendentes;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   void initState() {
     _model.fetch();
     if (this.pendentes) {
@@ -45,7 +42,7 @@ class _RequestsPageState extends State<RequestsPage> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        List<Request> requests = _model.requestList;
+        List<Request>? requests = _model.requestList;
 
         if (_model.error != null) {
           print("modal error>> " + _model.error.toString());
@@ -90,15 +87,15 @@ class _RequestsPageState extends State<RequestsPage> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(request.requestTypeDescription),
+                          Text(request.requestTypeDescription!),
                           request.response != null
-                              ? Icon(request.response
+                              ? Icon(request.response!
                                   ? Icons.check_circle_rounded
                                   : Icons.block_outlined)
                               : Container(),
                         ],
                       ),
-                      subtitle: Text(request.nameRequester),
+                      subtitle: Text(request.nameRequester!),
                       childrenPadding: EdgeInsets.all(16),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -108,7 +105,7 @@ class _RequestsPageState extends State<RequestsPage> {
                           bold: true,
                         ),
                         text(
-                          request.requestDetail.replaceAll("\\n", '\n'),
+                          request.requestDetail!.replaceAll("\\n", '\n'),
                           fontSize: 16,
                         ),
                         SizedBox(

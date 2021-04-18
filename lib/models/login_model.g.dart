@@ -27,13 +27,13 @@ mixin _$LoginModel on LoginModelBase, Store {
   final _$errorAtom = Atom(name: 'LoginModelBase.error');
 
   @override
-  Exception get error {
+  Exception? get error {
     _$errorAtom.reportRead();
     return super.error;
   }
 
   @override
-  set error(Exception value) {
+  set error(Exception? value) {
     _$errorAtom.reportWrite(value, super.error, () {
       super.error = value;
     });

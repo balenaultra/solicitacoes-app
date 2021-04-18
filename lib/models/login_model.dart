@@ -14,7 +14,7 @@ abstract class LoginModelBase with Store {
   bool showProgress = false;
 
   @observable
-  Exception error;
+  Exception? error;
 
   @action
   login(String companyCpfCnpj, String code, String password) async {
@@ -28,7 +28,7 @@ abstract class LoginModelBase with Store {
       return response;
 
     } catch (e) {
-      error = e;
+      error = Exception(e);
     }
   }
 

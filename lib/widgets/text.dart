@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Text text(
-  String s, {
+  String? s, {
     double fontSize = 16,
     color = Colors.black,
     bold = false,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:solicitacoes_app/models/login_model.dart';
 import 'package:solicitacoes_app/utils/api_response.dart';
 import 'package:solicitacoes_app/pages/home_page.dart';
@@ -37,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: _formKey,
       child: Container(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryColor,
         padding: EdgeInsets.all(16),
         child: ListView(
           children: [
@@ -108,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _onClickLogin() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
@@ -126,15 +128,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  String _validateLogin(String text) {
-    if (text.isEmpty) {
+  String? _validateLogin(String? text) {
+    if (text == null || text.isEmpty) {
       return "Digite o Texto";
     }
     return null;
   }
 
-  String _validateSenha(String text) {
-    if (text.isEmpty) {
+  String? _validateSenha(String? text) {
+    if (text == null ||text.isEmpty) {
       return "Digite a Senha";
     }
 

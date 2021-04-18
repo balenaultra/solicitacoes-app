@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
   final String text;
-  final Function onPressed;
+  final Function? onPressed;
   final bool showProgress;
   final Color primaryColor;
-  final Color textColor;
+  final Color? textColor;
   final double textFontSize;
   final double height;
 
@@ -25,7 +25,7 @@ class AppButton extends StatelessWidget {
       margin: EdgeInsets.all(12),
       height: height,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: onPressed as void Function()?,
         style: ElevatedButton.styleFrom(
           primary: primaryColor,
           shape: new RoundedRectangleBorder(

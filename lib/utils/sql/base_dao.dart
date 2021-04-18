@@ -11,17 +11,17 @@ abstract class BaseDAO<T extends Entity> {
 
   T fromMap(Map<String, dynamic> map);
 
-  Future<Database> get db => DatabaseHelper.getInstance().db;
+  Future<Database?> get db => DatabaseHelper.getInstance().db;
 
   Future<int> save(T entity) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     var id = await dbClient.insert(tableName, entity.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
 
-  Future<List<T>> query(String sql, [List<dynamic> argument]) async {
-    final dbClient = await db;
+  Future<List<T>> query(String sql, [List<dynamic>? argument]) async {
+    final dbClient = await (db as FutureOr<Database>);
 
     final list = await dbClient.rawQuery(sql, argument);
 
@@ -32,7 +32,7 @@ abstract class BaseDAO<T extends Entity> {
     return query('select * from $tableName');
   }
 
-  Future<T> findById(int id) async {
+  Future<T?> findById(int id) async {
     List<T> list =
     await query('select * from $tableName where id = ?', [id]);
 
@@ -41,24 +41,24 @@ abstract class BaseDAO<T extends Entity> {
   }
 
   Future<bool> exists(int id) async {
-    T c = await findById(id);
+    T? c = await findById(id);
     var exists = c != null;
     return exists;
   }
 
-  Future<int> count() async {
-    final dbClient = await db;
+  Future<int?> count() async {
+    final dbClient = await (db as FutureOr<Database>);
     final list = await dbClient.rawQuery('select count(*) from $tableName');
     return Sqflite.firstIntValue(list);
   }
 
   Future<int> delete(int id) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     return await dbClient.rawDelete('delete from $tableName where id = ?', [id]);
   }
 
   Future<int> deleteAll() async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     return await dbClient.rawDelete('delete from $tableName');
   }
 }

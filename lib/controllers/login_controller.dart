@@ -9,6 +9,6 @@ class LoginController{
 
     ApiResponse response = await LoginApi.login(companyCpfCnpj, code, password);
 
-    return response;
+    return response as FutureOr<ApiResponse<Usuario>>;
   }
 }
