@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:solicitacoes_app/splash_page.dart';
-import 'package:solicitacoes_app/utils/color.dart';
 
 void main() {
   runApp(MyApp());
