@@ -3,11 +3,16 @@ import 'dart:convert';
 import 'package:solicitacoes_app/utils/api_response.dart';
 import 'package:solicitacoes_app/datas/request_data.dart';
 import 'package:solicitacoes_app/utils/http_helper.dart' as http;
+import 'package:intl/intl.dart';
 
 class RequestApi {
-  static Future<ApiResponse<List<Request>>> fetch() async {
+  static Future<ApiResponse<List<Request>>> fetch({DateTime? date}) async {
     try {
       var url = 'http://localhost:3000/requests';
+
+      if (date != null) {
+        url += '/${DateFormat("yyyy-MM-dd").format(date)}';
+      }
 
       var response = await http.get(url);
 
