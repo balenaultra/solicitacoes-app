@@ -20,12 +20,12 @@ abstract class RequestsModelBase with Store {
   Exception? error;
 
   @action
-  fetch() async {
+  fetch({DateTime? date}) async {
     try {
       var user = await Usuario.get();
 
       if (user != null) {
-        DateTime now = DateTime.now();
+        DateTime now =  DateTime.now();
         now = DateTime(now.year, now.month, now.day);
 
         if (now != user.tokenDate) {
@@ -37,7 +37,7 @@ abstract class RequestsModelBase with Store {
         }
       }
 
-      ApiResponse response = await RequestApi.fetch();
+      ApiResponse response = await RequestApi.fetch(date: date);
 
       if (response.ok)
         requestList = response.result;

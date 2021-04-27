@@ -42,8 +42,8 @@ mixin _$RequestsModel on RequestsModelBase, Store {
   final _$fetchAsyncAction = AsyncAction('RequestsModelBase.fetch');
 
   @override
-  Future fetch() {
-    return _$fetchAsyncAction.run(() => super.fetch());
+  Future fetch({DateTime? date}) {
+    return _$fetchAsyncAction.run(() => super.fetch(date: date));
   }
 
   @override
