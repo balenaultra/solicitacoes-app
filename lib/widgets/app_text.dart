@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppText extends StatelessWidget {
   final String label;
@@ -10,18 +12,62 @@ class AppText extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final FocusNode? nextFocus;
+  final List<TextInputFormatter>? inputFormatter;
+  final Widget? icon;
 
-  AppText(
-    this.label,
-    this.hint, {
-    this.password = false,
-    this.controller,
-    this.validator,
-    this.keyboardType,
-    this.textInputAction,
-    this.focusNode,
-    this.nextFocus,
-  });
+  AppText(this.label, this.hint,
+      {this.password = false,
+      this.controller,
+      this.validator,
+      this.keyboardType,
+      this.textInputAction,
+      this.focusNode,
+      this.nextFocus,
+      this.inputFormatter,
+      this.icon});
+
+  factory AppText.cpfEndCnpj(
+          {TextEditingController? controller, FormFieldValidator<String>? validator, FocusNode? nextFocus}) =>
+      AppText(
+        "CPF / CNPJ",
+        "Digite o CPF / CNPJ da empresa",
+        controller: controller,
+        validator: validator,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        nextFocus: nextFocus,
+        inputFormatter: [FilteringTextInputFormatter.digitsOnly, CpfOuCnpjFormatter()],
+      );
+
+  factory AppText.code(
+          {TextEditingController? controller,
+          FormFieldValidator<String>? validator,
+          FocusNode? focusNode,
+          FocusNode? nextFocus}) =>
+      AppText(
+        "Código",
+        "Digite o Código do Operador no Gestão",
+        controller: controller,
+        validator: validator,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        focusNode: focusNode,
+        nextFocus: nextFocus,
+      );
+
+  factory AppText.password(
+          {TextEditingController? controller,
+          FormFieldValidator<String>? validator,
+          FocusNode? focusNode,
+          Widget? iconText,
+          bool? obscureText}) =>
+      AppText("Senha", "Informe a Senha",
+          password: obscureText!,
+          controller: controller,
+          validator: validator,
+          keyboardType: TextInputType.text,
+          focusNode: focusNode,
+          icon: iconText);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +77,7 @@ class AppText extends StatelessWidget {
       validator: validator,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
+      inputFormatters: inputFormatter,
       focusNode: focusNode,
       onFieldSubmitted: (String text) {
         if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
@@ -60,6 +107,7 @@ class AppText extends StatelessWidget {
           fontSize: 16,
           color: Theme.of(context).selectedRowColor,
         ),
+        suffixIcon: icon,
       ),
     );
   }

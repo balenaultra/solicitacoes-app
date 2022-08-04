@@ -1,96 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:solicitacoes_app/datas/request_data.dart';
 import 'package:solicitacoes_app/widgets/app_button.dart';
-import 'package:solicitacoes_app/widgets/text.dart';
+import 'package:solicitacoes_app/widgets/text_card.dart';
 
-class RequestCard extends StatefulWidget {
-  late final Request request;
-  Function? onPressAceitar;
-  Function? onPressRejeitar;
+import '../entities/solicitation_entity.dart';
+import '../utils/date_format_utils.dart';
 
-  RequestCard(this.request,
-  {this.onPressAceitar,
-  this.onPressRejeitar});
+// ignore: must_be_immutable
+class RequestCard extends StatelessWidget {
+  final SolicitationEntity? _solicitationEntity;
+  final Function? onPressAccept;
+  final Function? onPressReject;
+  final bool? pending;
+  final Widget? textFormField;
 
-  @override
-  _RequestCardState createState() => _RequestCardState();
-}
-
-class _RequestCardState extends State<RequestCard> {
-
-  Request get request => widget.request;
+  RequestCard(this._solicitationEntity,
+      {this.pending, this.onPressAccept, this.onPressReject, this.textFormField});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(08.0),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(08.0),
         child: ExpansionTile(
-          //leading: Text(request.requestDate),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(request.requestTypeDescription!),
-              request.response != null
-                  ? Icon(request.response!
-                  ? Icons.check_circle_rounded
-                  : Icons.block_outlined)
-                  : Container(),
+              Text(
+                textDate(pending!, _solicitationEntity!),
+                style: TextStyle(fontSize: 17),
+              ),
+              Icon(
+                iconCard(_solicitationEntity!.authorization ?? false),
+                color: color(_solicitationEntity!.authorization ?? false),
+              )
             ],
           ),
-          subtitle: Text(request.nameRequester!),
+          subtitle: Text('${_solicitationEntity!.dscTypeRequested!}'),
           childrenPadding: EdgeInsets.all(16),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            text(
-              'Detalhes da solicitação',
-              fontSize: 16,
+            TextCard(
+              label: 'Detalhes da solicitação',
+              fontSize: 18,
               bold: true,
             ),
-            text(
-              request.requestDetail!.replaceAll("\\n", '\n'),
-              fontSize: 16,
+            TextCard(
+              label: formatText("${_solicitationEntity!.detail!}"),
+              fontSize: 17,
             ),
             SizedBox(
               height: 10,
             ),
-            text(
-              'Observação do Operador',
-              fontSize: 16,
+            TextCard(
+              label: 'Observação do Operador',
+              fontSize: 18,
               bold: true,
             ),
-            text(request.requestMessage),
+            Container(child: textFormField ?? SizedBox()),
+            TextCard(label: '${!pending! ? _solicitationEntity!.dscSolicitor ?? "" : ""}'),
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                AppButton(
-                  'Aceitar',
-                  onPressed: widget.onPressAceitar,
-                  primaryColor: Colors.green,
-                  height: 36,
-                  textFontSize: 15,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                AppButton(
-                  'Rejeitar',
-                  onPressed: widget.onPressRejeitar,
-                  primaryColor: Colors.red,
-                  textColor: Colors.black,
-                  height: 36,
-                  textFontSize: 15,
-                ),
-              ],
-            )
+            Visibility(
+              visible: isVisible(pending!, _solicitationEntity!),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppButton(
+                    'Aceitar',
+                    onPressed: onPressAccept,
+                    primaryColor: Colors.green,
+                    textColor: Colors.white,
+                    height: 36,
+                    textFontSize: 18,
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  AppButton(
+                    'Rejeitar',
+                    onPressed: onPressReject,
+                    primaryColor: Colors.red,
+                    textColor: Colors.white,
+                    height: 36,
+                    textFontSize: 18,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  String textDate(bool pending, SolicitationEntity _solicitationEntity) =>
+      DateFormatUtils.formatDateTimeFromDateString(DateFormatUtils.formatDateStringFromDateTime(
+          pending ? _solicitationEntity.dateSolicitation! : _solicitationEntity.dateAnswer!));
+
+  bool isVisible(bool pending, SolicitationEntity _solicitationEntity) {
+    if (pending) {
+      return _solicitationEntity.authorization ?? true;
+    } else {
+      return false;
+    }
+  }
+
+  IconData iconCard(bool typeIcon) => typeIcon ? Icons.check_circle_rounded : Icons.block_outlined;
+
+  Color color(bool typeIcon) => typeIcon ? Colors.green : Colors.red;
+
+  String formatText(String detail) {
+    return detail.replaceAll(RegExp('[\r]'), '').replaceAll('  ', '');
   }
 }

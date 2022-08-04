@@ -19,6 +19,16 @@ class AppButton extends StatelessWidget {
     this.height = 46,
   });
 
+  factory AppButton.login({Function? onPressed, bool, bool? showProgress}) =>
+      AppButton("Login", onPressed: onPressed);
+
+  factory AppButton.config({Function? onPressed, bool}) => AppButton(
+        "Continuar com o login",
+        onPressed: onPressed,
+        height: 35,
+        textFontSize: 18,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,15 +39,13 @@ class AppButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: primaryColor,
           shape: new RoundedRectangleBorder(
-            borderRadius:
-            new BorderRadius.circular(10.0),
+            borderRadius: new BorderRadius.circular(10.0),
           ),
         ),
         child: showProgress
             ? Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).selectedRowColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).selectedRowColor),
                 ),
               )
             : Text(
@@ -47,7 +55,6 @@ class AppButton extends StatelessWidget {
                   fontSize: textFontSize,
                 ),
               ),
-
       ),
     );
   }
